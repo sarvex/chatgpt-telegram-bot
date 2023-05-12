@@ -259,7 +259,7 @@ class ChatGPTTelegramBot:
             return
 
         if self.is_group_chat(update) and self.config['ignore_group_transcriptions']:
-            logging.info(f'Transcription coming from group chat, ignoring...')
+            logging.info('Transcription coming from group chat, ignoring...')
             return
 
         chat_id = update.effective_chat.id
@@ -862,10 +862,7 @@ class ChatGPTTelegramBot:
         admin_user_ids = self.config['admin_user_ids'].split(',')
 
         # Check if user is in the admin user list
-        if str(user_id) in admin_user_ids:
-            return True
-
-        return False
+        return str(user_id) in admin_user_ids
 
     def get_user_budget(self, user_id) -> float | None:
         """
@@ -972,7 +969,6 @@ class ChatGPTTelegramBot:
                 self.usage["guests"].add_chat_tokens(used_tokens, self.config['token_price'])
         except Exception as e:
             logging.warning(f'Failed to add tokens to usage_logs: {str(e)}')
-            pass
 
     def get_reply_to_message_id(self, update: Update):
         """

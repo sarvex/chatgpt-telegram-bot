@@ -42,13 +42,11 @@ def localized_text(key, bot_language):
         return translations[bot_language][key]
     except KeyError:
         logging.warning(f"No translation available for bot_language code '{bot_language}' and key '{key}'")
-        # Fallback to English if the translation is not available
         if key in translations['en']:
             return translations['en'][key]
-        else:
-            logging.warning(f"No english definition found for key '{key}' in translations.json")
-            # return key as text
-            return key
+        logging.warning(f"No english definition found for key '{key}' in translations.json")
+        # return key as text
+        return key
 
 
 class OpenAIHelper:
@@ -332,5 +330,4 @@ class OpenAIHelper:
         }
         response = requests.get("https://api.openai.com/dashboard/billing/usage", headers=headers, params=params)
         billing_data = json.loads(response.text)
-        usage_month = billing_data["total_usage"] / 100  # convert cent amount to dollars
-        return usage_month
+        return billing_data["total_usage"] / 100
